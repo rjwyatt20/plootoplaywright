@@ -1,7 +1,7 @@
 import {expect, test} from '@playwright/test'
 import {DashboardPage} from './DashboardPage'
 
-exports.PaymentApprovalsPage  = class PaymentApprovalsPage extends DashboardPage {
+exports.PaymentApprovalsDashboardPage  = class PaymentApprovalsDashboardPage extends DashboardPage {
   /**
    * @param {import('@playwright/test').Page} page
    */

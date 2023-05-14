@@ -8,14 +8,14 @@
  */
 
 const { test, expect } = require('@playwright/test')
-const { PendingPaymentsPage } = require('../pages/PendingPaymentsPage')
+const { PendingPaymentsDashboardPage } = require('../pages/PendingPaymentsDashboardPage')
 const { PaymentApprovalPage } = require('../pages/PaymentApprovalPage')
 
 let pendingPaymentsDashPg
 
 test.describe('Given a user on the Pending Payments Dashboard Page', async () => {
   test.beforeEach(async({ page }) => {
-    pendingPaymentsDashPg = new PendingPaymentsPage(page)
+    pendingPaymentsDashPg = new PendingPaymentsDashboardPage(page)
 
     await page.goto(pendingPaymentsDashPg.relativeUrl)
   })

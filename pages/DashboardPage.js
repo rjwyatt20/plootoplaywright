@@ -50,19 +50,12 @@ exports.DashboardPage  = class DashboardPage extends PlootoPage {
     rowFilterText,
     expectedData
   }) {
-    // console.log('selector', selector, 'rowFilter', rowFilterText)
-    // const oneRow = await selector
-    //   .filter({has: this.page.getByText(rowFilterText)}).length
-    
-    // console.log('onerow', oneRow)
-
-    // const cells = oneRow.getByRole('cell')
     const selectorForCellsInThisRow = selector
       .filter({has: this.page.getByText(rowFilterText).first()})
       .getByRole('cell')
 
     const dataInRow = await selectorForCellsInThisRow.allInnerTexts()
-    console.log('data in row', dataInRow)
+
     for (const validation of expectedData) {
       await expect.soft(selectorForCellsInThisRow.nth(validation.cell)).toHaveText(validation.text)
     }    

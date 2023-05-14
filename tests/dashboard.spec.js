@@ -8,8 +8,8 @@
 
 const { test, expect } = require('@playwright/test')
 const { DashboardPage } = require('../pages/DashboardPage')
-const { PaymentApprovalsPage } = require('../pages/PaymentApprovalsPage')
-const { PendingPaymentsPage } = require('../pages/PendingPaymentsPage')
+const { PaymentApprovalsDashboardPage } = require('../pages/PaymentApprovalsDashboardPage')
+const { PendingPaymentsDashboardPage } = require('../pages/PendingPaymentsDashboardPage')
 let dashboardPg
 
 test.describe('Given a user on the Dashboard Page', async () => {
@@ -32,7 +32,7 @@ test.describe('Given a user on the Dashboard Page', async () => {
 
   test.describe('When the user clicks the Payment Approvals link', async () => {
     test('Then the browser redirects to the Payment Approvals page', async ({ page }) => {
-      const paymentApprovePg = new PaymentApprovalsPage(page)
+      const paymentApprovePg = new PaymentApprovalsDashboardPage(page)
 
       await dashboardPg.paymentApprovalsLink.click()
       await expect(page).toHaveURL(paymentApprovePg.relativeUrl)     
@@ -41,7 +41,7 @@ test.describe('Given a user on the Dashboard Page', async () => {
 
   test.describe('When the user clicks the Pending Payments link', async () => {
     test('Then the browser redirects to the Payment Approvals page', async ({ page }) => {
-      const pendingPmtsPg = new PendingPaymentsPage(page)
+      const pendingPmtsPg = new PendingPaymentsDashboardPage(page)
 
       await dashboardPg.pendingPaymentsLink.click()
       await expect(page).toHaveURL(pendingPmtsPg.relativeUrl)     

@@ -7,6 +7,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "scripts": {
+    "playwright:all": "npx playwright test tests/*.spec.js"
+  },
   "devDependencies": {
     "@playwright/test": "^1.33.0"
   }

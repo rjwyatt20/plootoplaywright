@@ -8,7 +8,7 @@
  */
 
 const { test, expect } = require('@playwright/test')
-const { PaymentApprovalPage } = require('../pages/PaymentApprovalPage')
+const {testCaseSpecificSetup, testCaseData} = require('../test_cases/paymentApproval.testcases')
 
 let pmtApprovalPg
 

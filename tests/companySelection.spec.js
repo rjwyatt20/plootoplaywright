@@ -16,7 +16,7 @@ const { CompanySelectionPage } = require('../pages/CompanySelectionPage')
 const { DashboardPage } = require('../pages/DashboardPage')
 let companySelectionPg = {}
 let dashboardPg = {}
-// @positiveCase
+
 test.describe('Given a user on the Company Selection Page', () => {
   test.beforeEach(async ({ page }) => {
     companySelectionPg = new CompanySelectionPage(page)
@@ -41,7 +41,6 @@ test.describe('Given a user on the Company Selection Page', () => {
     })
   })
   
-  // @slow
   test.describe('When the user inspects the company selection table', async () => {
     test('Then the user finds valid data in the table', async ({ page }) => {
   

@@ -34,10 +34,9 @@ exports.PaymentApprovalPage  = class PaymentApprovalPage extends PlootoPage {
   
   // array version
   async  validateApprovalProcess({expectedFieldsToValidate, validationData}) {
-    const [...expectedData] = validationData
     let count = 0
     for(const actualData of await this.paymentApprovalHistory.all()) {
-      await expect.soft(actualData).toHaveText(expectedData[count])
+      await expect.soft(actualData).toHaveText(validationData[count])
       count++
     }
 
@@ -46,11 +45,10 @@ exports.PaymentApprovalPage  = class PaymentApprovalPage extends PlootoPage {
   }
 
   async validateAuditTrail({expectedFieldsToValidate, validationData}) {
-    const [...expectedData] = validationData
     let count = 0
 
     for (const auditLogRow of await this.auditorLogsList.all()) {
-      await expect(auditLogRow).toHaveText(expectedData[count])
+      await expect(auditLogRow).toHaveText(validationData[count])
       count++
     }
 

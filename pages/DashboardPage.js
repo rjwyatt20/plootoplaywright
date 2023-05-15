@@ -9,29 +9,6 @@ exports.DashboardPage  = class DashboardPage extends PlootoPage {
   constructor(page) {
     super(page)
 
-    this.testCases = {
-      PlootoIncHasActionableItems: {
-        actionableItems: [
-          {
-            selector: 'paymentApprovalsLink',
-            count: "1",
-            expectation: {
-              attr: 'href',
-              val: '#user/dashboard/approvePayments'
-            }
-          },
-          {
-            selector: 'pendingPaymentsLink',
-            count: "39",
-            expectation: {
-              attr: 'href',
-              val: '#user/dashboard/pendingPayments'
-            }
-          },
-        ]
-      }
-    }
-
     this.relativeUrl = '/dashboard.html'
 
     this.paymentApprovalsLink = page.getByRole('link', {name: "Payment Approvals"})

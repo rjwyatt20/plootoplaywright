@@ -33,8 +33,8 @@ exports.PaymentApprovalPage  = class PaymentApprovalPage extends PlootoPage {
   }
   
   // array version
-  async  validateApprovalProcess([...expectedData]) {
-    const expectedFieldsToValidate = 3
+  async  validateApprovalProcess({expectedFieldsToValidate, validationData}) {
+    const [...expectedData] = validationData
     let count = 0
     for(const actualData of await this.paymentApprovalHistory.all()) {
       await expect.soft(actualData).toHaveText(expectedData[count])

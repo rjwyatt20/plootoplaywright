@@ -10,24 +10,28 @@ const { test, expect } = require('@playwright/test')
 const { DashboardPage } = require('../pages/DashboardPage')
 const { PaymentApprovalsDashboardPage } = require('../pages/PaymentApprovalsDashboardPage')
 const { PendingPaymentsDashboardPage } = require('../pages/PendingPaymentsDashboardPage')
+const { testCaseData, testCaseSpecificSetup } = require('../test_cases/dashboardActionableItems.testcases')
+
 let dashboardPg
 
 test.describe('Given a user on the Dashboard Page', async () => {
   test.beforeEach(async ({ page }) => {
     dashboardPg = new DashboardPage(page)
 
-    await page.goto(dashboardPg.relativeUrl)
+    await testCaseSpecificSetup({ page, dashboardPg })
   })
 
   test.describe('When the user examines sidebar nav', async () => {
-    test('Then the user can see actionable items in the nav and actionableItems are links', async ({ page }) => {
-      const { actionableItems } = dashboardPg.testCases.PlootoIncHasActionableItems
-
-      for (const actItem of actionableItems) {
-        await expect.soft(await dashboardPg[actItem.selector].locator('span.badge')).toHaveText(actItem.count)
-        await expect.soft(await dashboardPg[actItem.selector]).toHaveAttribute(actItem.expectation.attr, actItem.expectation.val)
-      }
-    })
+    for (const testCase of testCaseData) {
+      test(`Then the user can see actionable items for ${testCase.caseName} in the nav and actionableItems are links`, async ({ page }) => {
+        const { actionableItems } = testCase
+  
+        for (const actItem of actionableItems) {
+          await expect.soft(await dashboardPg[actItem.selector].locator('span.badge')).toHaveText(actItem.count)
+          await expect.soft(await dashboardPg[actItem.selector]).toHaveAttribute(actItem.expectation.attr, actItem.expectation.val)
+        }
+      })  
+    }
   })
 
   test.describe('When the user clicks the Payment Approvals link', async () => {

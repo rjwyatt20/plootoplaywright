@@ -10,6 +10,7 @@
 const { test, expect } = require('@playwright/test')
 const { PendingPaymentsDashboardPage } = require('../pages/PendingPaymentsDashboardPage')
 const { PaymentApprovalPage } = require('../pages/PaymentApprovalPage')
+const { testCaseData, testCaseSpecificSetup } = require('../test_cases/pendingPaymentsDashboard.testcases')
 
 let pendingPaymentsDashPg
 
@@ -17,7 +18,7 @@ test.describe('Given a user on the Pending Payments Dashboard Page', async () =>
   test.beforeEach(async({ page }) => {
     pendingPaymentsDashPg = new PendingPaymentsDashboardPage(page)
 
-    await page.goto(pendingPaymentsDashPg.relativeUrl)
+    await testCaseSpecificSetup({page, pendingPaymentsDashPg})
   })
   test.describe('When the user clicks the company name Cavages', async () => {
     test('Then the browser redirects to the payment approval page for Cavages', async ({ page }) => {
@@ -29,35 +30,20 @@ test.describe('Given a user on the Pending Payments Dashboard Page', async () =>
   })
 
   test.describe('When the user examines the list of pending payables needing approval', async () => {
-    test('Then the user can see 33 pending payables needing approval on the pending payables tab', async ({ page }) => {
+    for (const testCase of testCaseData) {
+      test(`${testCase.caseName}: Then the user can see ${testCase.pendingPayableCount} pending payables needing approval on the pending payables tab`, async ({ page }) => {
       
-      await expect.soft(await pendingPaymentsDashPg.pendingPayablesTab.locator('span span')).toHaveText("33")
-      await expect.soft(pendingPaymentsDashPg.pendingReceivablesTab.locator('span span')).toHaveText("6")
-      await pendingPaymentsDashPg.validateIfTabIsActiveForPaymentApprovals({
-        childSelector: pendingPaymentsDashPg.pendingPayablesTab,
-      })
-      await pendingPaymentsDashPg.validateDataInRow({
-        selector: pendingPaymentsDashPg.rowsInTableInsidePayablesTab,
-        rowFilterText: "Laura Ashley",
-        expectedData: [
-          {
-            text: "On Hold",
-            cell: 1
-          },
-          {
-            text: "04 Oct 2021",
-            cell: 2
-          },
-          {
-            text: "07 Oct 2021",
-            cell: 3
-          },
-          {
-            text: "10.00 PHP\n0.20 USD",
-            cell: 4,
-          }
-        ]
-      })
-    })
+        await expect.soft(pendingPaymentsDashPg.pendingPayablesTab.locator('span span')).toHaveText(testCase.pendingPayableCount)
+        await expect.soft(pendingPaymentsDashPg.pendingReceivablesTab.locator('span span')).toHaveText(testCase.pendingReceivablesCount)
+        await pendingPaymentsDashPg.validateIfTabIsActiveForPaymentApprovals({
+          childSelector: pendingPaymentsDashPg.pendingPayablesTab,
+        })
+        await pendingPaymentsDashPg.validateDataInRow({
+          selector: pendingPaymentsDashPg.rowsInTableInsidePayablesTab,
+          rowFilterText: testCase.companyName,
+          expectedData: testCase.paymentDataRow
+        })
+      })  
+    }
   })
 })
